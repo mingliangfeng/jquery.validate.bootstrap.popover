@@ -37,6 +37,7 @@ $.extend $.validator,
     v_popover = $(element).data('validate-popover')
     unless v_popover?
       v_popover = $('<div class="popover right error-popover" id="validate-popover"><div class="arrow"></div><div class="popover-content"></div></div>').appendTo($('body')) 
+      v_popover.click -> $(this).hide()
       $(element).data('validate-popover', v_popover)
     v_popover.hide()
 
