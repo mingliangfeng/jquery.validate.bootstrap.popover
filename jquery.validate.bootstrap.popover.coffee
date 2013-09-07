@@ -31,7 +31,8 @@ $.extend $.validator,
     [top_adjust, left_adjust] = offset_adjust.split(',')
     top = offset.top - 3 + parseInt(top_adjust)
     left = offset.left + $(element).width() + 20 + parseInt(left_adjust)
-    $v_popover.css({top: top, left: left}).show()
+    $v_popover.css({top: top, left: left})
+    $v_popover.show() if message? and message != ''
 
   get_validate_popover: (element)->
     v_popover = $(element).data('validate-popover')

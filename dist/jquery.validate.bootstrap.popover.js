@@ -48,10 +48,13 @@
       _ref = offset_adjust.split(','), top_adjust = _ref[0], left_adjust = _ref[1];
       top = offset.top - 3 + parseInt(top_adjust);
       left = offset.left + $(element).width() + 20 + parseInt(left_adjust);
-      return $v_popover.css({
+      $v_popover.css({
         top: top,
         left: left
-      }).show();
+      });
+      if ((message != null) && message !== '') {
+        return $v_popover.show();
+      }
     },
     get_validate_popover: function(element) {
       var v_popover;
