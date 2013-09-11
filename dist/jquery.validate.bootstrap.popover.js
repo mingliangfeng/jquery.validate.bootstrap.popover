@@ -26,6 +26,7 @@
       },
       beforeShowError: function() {}
     },
+    popover_elements_cached: [],
     hide_validate_popover: function(element) {
       var ele, _i, _len, _results;
       if (element.length > 1) {
@@ -40,21 +41,44 @@
       }
     },
     show_error: function(message, element) {
-      var $v_popover, left, left_adjust, offset, offset_adjust, top, top_adjust, _ref;
+      var $v_popover;
       $v_popover = $.validator.get_validate_popover(element);
       $('.popover-content', $v_popover).html(message);
+      $.validator.reset_position($v_popover, element);
+      if ((message != null) && message !== '') {
+        return $v_popover.show();
+      }
+    },
+    reset_position: function(popover, element) {
+      var left, left_adjust, offset, offset_adjust, top, top_adjust, _ref;
       offset = $(element).offset();
       offset_adjust = $(element).data('popover-offset') || "0,0";
       _ref = offset_adjust.split(','), top_adjust = _ref[0], left_adjust = _ref[1];
       top = offset.top - 3 + parseInt(top_adjust);
       left = offset.left + $(element).width() + 20 + parseInt(left_adjust);
-      $v_popover.css({
+      return popover.css({
         top: top,
         left: left
       });
-      if ((message != null) && message !== '') {
-        return $v_popover.show();
+    },
+    reposition: function(elements) {
+      var element, popover, reposition_elements, _i, _len, _results;
+      if (elements != null) {
+        reposition_elements = elements;
+      } else {
+        reposition_elements = $.validator.popover_elements_cached;
       }
+      _results = [];
+      for (_i = 0, _len = reposition_elements.length; _i < _len; _i++) {
+        element = reposition_elements[_i];
+        popover = $(element).data('validate-popover');
+        if (popover.is(":visible")) {
+          _results.push($.validator.reset_position(popover, element));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
     },
     get_validate_popover: function(element) {
       var v_popover;
@@ -65,6 +89,7 @@
           return $(this).hide();
         });
         $(element).data('validate-popover', v_popover);
+        $.validator.popover_elements_cached.push(element);
       }
       return v_popover.hide();
     }

@@ -15,6 +15,8 @@ $.extend $.validator,
       this.beforeShowError.call(element.get(0), message);
       $.validator.show_error(message, element)
     beforeShowError: ->
+  
+  popover_elements_cached: []
 
   hide_validate_popover: (element)->
     if element.length > 1
@@ -26,13 +28,27 @@ $.extend $.validator,
   show_error: (message, element)->
     $v_popover = $.validator.get_validate_popover(element)
     $('.popover-content', $v_popover).html(message)
+    $.validator.reset_position $v_popover, element
+    $v_popover.show() if message? and message != ''
+  
+  reset_position: (popover, element)->
     offset = $(element).offset()
     offset_adjust = $(element).data('popover-offset') || "0,0"
     [top_adjust, left_adjust] = offset_adjust.split(',')
     top = offset.top - 3 + parseInt(top_adjust)
     left = offset.left + $(element).width() + 20 + parseInt(left_adjust)
-    $v_popover.css({top: top, left: left})
-    $v_popover.show() if message? and message != ''
+    popover.css({top: top, left: left})
+
+  reposition: (elements)->
+    if elements?
+      reposition_elements = elements
+    else
+      reposition_elements = $.validator.popover_elements_cached
+
+    for element in reposition_elements
+      popover = $(element).data('validate-popover')
+      if popover.is(":visible")
+        $.validator.reset_position popover, element
 
   get_validate_popover: (element)->
     v_popover = $(element).data('validate-popover')
@@ -40,5 +56,6 @@ $.extend $.validator,
       v_popover = $('<div class="popover right error-popover" id="validate-popover"><div class="arrow"></div><div class="popover-content"></div></div>').appendTo($('body')) 
       v_popover.click -> $(this).hide()
       $(element).data('validate-popover', v_popover)
+      $.validator.popover_elements_cached.push element
     v_popover.hide()
 
