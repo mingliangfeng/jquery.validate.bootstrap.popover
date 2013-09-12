@@ -47,7 +47,7 @@ $.extend $.validator,
 
     for element in reposition_elements
       popover = $(element).data('validate-popover')
-      if popover.is(":visible")
+      if popover? and popover.is(":visible")
         $.validator.reset_position popover, element
 
   get_validate_popover: (element)->

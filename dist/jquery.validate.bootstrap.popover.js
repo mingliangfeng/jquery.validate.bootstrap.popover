@@ -72,7 +72,7 @@
       for (_i = 0, _len = reposition_elements.length; _i < _len; _i++) {
         element = reposition_elements[_i];
         popover = $(element).data('validate-popover');
-        if (popover.is(":visible")) {
+        if ((popover != null) && popover.is(":visible")) {
           _results.push($.validator.reset_position(popover, element));
         } else {
           _results.push(void 0);
