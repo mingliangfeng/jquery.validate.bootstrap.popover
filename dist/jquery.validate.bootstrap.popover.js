@@ -69,7 +69,7 @@
       });
     },
     get_position: function(element) {
-      return $(element).data('popover-position') || $.data(element[0].form, "validator").settings.popoverPosition;
+      return $(element).data('popover-position') || $.data($(element)[0].form, "validator").settings.popoverPosition;
     },
     reposition: function(elements) {
       var element, popover, reposition_elements, _i, _len, _results;

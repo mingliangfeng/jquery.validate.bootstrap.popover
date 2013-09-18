@@ -46,7 +46,7 @@ $.extend $.validator,
       left = offset.left + $(element).width() + 20 + parseInt(left_adjust)
     popover.css({top: top, left: left})
 
-  get_position: (element) -> $(element).data('popover-position') || $.data(element[0].form, "validator").settings.popoverPosition
+  get_position: (element) -> $(element).data('popover-position') || $.data($(element)[0].form, "validator").settings.popoverPosition
 
   reposition: (elements)->
     if elements?
