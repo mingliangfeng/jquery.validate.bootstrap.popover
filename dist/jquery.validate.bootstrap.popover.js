@@ -15,6 +15,7 @@
   $.extend($.validator, {
     popover_defaults: {
       onsubmit: true,
+      popoverPosition: 'right',
       success: function(error, element) {
         return $.validator.hide_validate_popover(element);
       },
@@ -24,7 +25,7 @@
         this.beforeShowError.call(element.get(0), message);
         return $.validator.show_error(message, element);
       },
-      beforeShowError: function() {}
+      beforeShowError: function(message) {}
     },
     popover_elements_cached: [],
     hide_validate_popover: function(element) {
@@ -50,16 +51,25 @@
       }
     },
     reset_position: function(popover, element) {
-      var left, left_adjust, offset, offset_adjust, top, top_adjust, _ref;
+      var left, left_adjust, offset, offset_adjust, position, top, top_adjust, _ref;
       offset = $(element).offset();
       offset_adjust = $(element).data('popover-offset') || "0,0";
       _ref = offset_adjust.split(','), top_adjust = _ref[0], left_adjust = _ref[1];
-      top = offset.top - 3 + parseInt(top_adjust);
-      left = offset.left + $(element).width() + 20 + parseInt(left_adjust);
+      position = $.validator.get_position(element);
+      if (position === 'top') {
+        top = offset.top - 11 - 26 + parseInt(top_adjust);
+        left = offset.left + parseInt(left_adjust);
+      } else {
+        top = offset.top - 3 + parseInt(top_adjust);
+        left = offset.left + $(element).width() + 20 + parseInt(left_adjust);
+      }
       return popover.css({
         top: top,
         left: left
       });
+    },
+    get_position: function(element) {
+      return $(element).data('popover-position') || $.data(element[0].form, "validator").settings.popoverPosition;
     },
     reposition: function(elements) {
       var element, popover, reposition_elements, _i, _len, _results;
@@ -84,7 +94,7 @@
       var v_popover;
       v_popover = $(element).data('validate-popover');
       if (v_popover == null) {
-        v_popover = $('<div class="popover right error-popover" id="validate-popover"><div class="arrow"></div><div class="popover-content"></div></div>').appendTo($('body'));
+        v_popover = $("<div class='popover " + ($.validator.get_position(element)) + " error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($('body'));
         v_popover.click(function() {
           return $(this).hide();
         });
