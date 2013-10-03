@@ -9,7 +9,7 @@ Instead of calling **$('#form_id').validate()**, call this:
     });
 
 
-Check live demo [here](http://mingliangfeng.me/github%20project/2013/08/08/jquery-validate-bootstrap-popover-demo/).
+Check live demo [here](http://mingliangfeng.me/github%20project/2013/08/08/jquery-validate-bootstrap-popover-demo/) and [here](http://mingliangfeng.me/github%20project/2013/09/28/jquery-validate-bootstrap-popover-modal/).
 
 ## Options
 
@@ -63,3 +63,7 @@ Public methods list:
 
 		$.validator.reposition($("#client_email, #client_password"));
 
+
+## License
+
+jquery.validate.bootstrap.popover is licensed under the MIT license.
