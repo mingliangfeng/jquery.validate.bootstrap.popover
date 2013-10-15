@@ -21,6 +21,7 @@ $('#form_id').validate_popover({ popoverPosition: 'top' });
 Supported options are:
 
 * **popoverPosition** Supported values: 'right', 'top'; default to 'right'
+* **popoverContainer** The container popover message will append to, default: 'body'
 * **beforeShowError** A function will be called before the error popover shows, **this** of the function is the input html element validated: 
 
 		$('#form_id').validate_popover({ beforeShowError: function(message) { 
