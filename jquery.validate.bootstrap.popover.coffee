@@ -10,6 +10,7 @@ $.extend $.validator,
   popover_defaults:
     onsubmit: true
     popoverPosition: 'right'
+    popoverContainer: 'body'
     success: (error, element)-> $.validator.hide_validate_popover(element)
     errorPlacement: (error, element)-> 
       message = error.html()
@@ -62,7 +63,8 @@ $.extend $.validator,
   get_validate_popover: (element)->
     v_popover = $(element).data('validate-popover')
     unless v_popover?
-      v_popover = $("<div class='popover #{$.validator.get_position(element)} error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($('body')) 
+      $container = $($.data($(element)[0].form, "validator").settings.popoverContainer)
+      v_popover = $("<div class='popover #{$.validator.get_position(element)} error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container) 
       v_popover.click -> $(this).hide()
       $(element).data('validate-popover', v_popover)
       $.validator.popover_elements_cached.push element
