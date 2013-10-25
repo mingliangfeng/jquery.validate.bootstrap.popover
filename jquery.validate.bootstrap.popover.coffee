@@ -6,18 +6,18 @@ $.fn.extend validate_popover: (options) ->
   settings = $.extend true, {}, $.validator.popover_defaults, options
   this.validate(settings)
 
-$.extend $.validator, 
+$.extend $.validator,
   popover_defaults:
     onsubmit: true
     popoverPosition: 'right'
     popoverContainer: 'body'
     success: (error, element)-> $.validator.hide_validate_popover(element)
-    errorPlacement: (error, element)-> 
+    errorPlacement: (error, element)->
       message = error.html()
       this.beforeShowError.call(element.get(0), message);
       $.validator.show_error(message, element)
     beforeShowError: (message)->
-  
+
   popover_elements_cached: []
 
   hide_validate_popover: (element)->
@@ -32,7 +32,7 @@ $.extend $.validator,
     $('.popover-content', $v_popover).html(message)
     $.validator.reset_position $v_popover, element
     $v_popover.show() if message? and message != ''
-  
+
   reset_position: (popover, element)->
     offset = $(element).offset()
     offset_adjust = $(element).data('popover-offset') || "0,0"
@@ -56,15 +56,19 @@ $.extend $.validator,
       reposition_elements = $.validator.popover_elements_cached
 
     for element in reposition_elements
-      popover = $(element).data('validate-popover')
+      ele = $(element)
+      popover = ele.data('validate-popover')
       if popover? and popover.is(":visible")
-        $.validator.reset_position popover, element
+        if ele.is(":visible")
+          $.validator.reset_position popover, element
+        else
+          popover.hide()
 
   get_validate_popover: (element)->
     v_popover = $(element).data('validate-popover')
     unless v_popover?
       $container = $($.data($(element)[0].form, "validator").settings.popoverContainer)
-      v_popover = $("<div class='popover #{$.validator.get_position(element)} error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container) 
+      v_popover = $("<div class='popover #{$.validator.get_position(element)} error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container)
       v_popover.click -> $(this).hide()
       $(element).data('validate-popover', v_popover)
       $.validator.popover_elements_cached.push element
