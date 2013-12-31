@@ -11,6 +11,11 @@ Instead of calling **$('#form_id').validate()**, call this:
 
 Check live demo [here](http://mingliangfeng.me/github%20project/2013/08/08/jquery-validate-bootstrap-popover-demo/) and [here](http://mingliangfeng.me/github%20project/2013/09/28/jquery-validate-bootstrap-popover-modal/).
 
+## Dependency
+* [jquery](https://github.com/jquery/jquery)
+* [jquery.validate](https://github.com/jzaefferer/jquery-validation)
+* [bootstrap](https://github.com/twbs/bootstrap)
+
 ## Options
 
 The plugin accepts options as a single object argument. Pass in the options like this:
