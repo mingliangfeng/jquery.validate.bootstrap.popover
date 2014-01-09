@@ -16,6 +16,7 @@
     popover_defaults: {
       onsubmit: true,
       popoverPosition: 'right',
+      popoverContainer: 'body',
       success: function(error, element) {
         return $.validator.hide_validate_popover(element);
       },
@@ -72,7 +73,7 @@
       return $(element).data('popover-position') || $.data($(element)[0].form, "validator").settings.popoverPosition;
     },
     reposition: function(elements) {
-      var element, popover, reposition_elements, _i, _len, _results;
+      var ele, element, popover, reposition_elements, _i, _len, _results;
       if (elements != null) {
         reposition_elements = elements;
       } else {
@@ -81,9 +82,14 @@
       _results = [];
       for (_i = 0, _len = reposition_elements.length; _i < _len; _i++) {
         element = reposition_elements[_i];
-        popover = $(element).data('validate-popover');
+        ele = $(element);
+        popover = ele.data('validate-popover');
         if ((popover != null) && popover.is(":visible")) {
-          _results.push($.validator.reset_position(popover, element));
+          if (ele.is(":visible")) {
+            _results.push($.validator.reset_position(popover, element));
+          } else {
+            _results.push(popover.hide());
+          }
         } else {
           _results.push(void 0);
         }
@@ -91,10 +97,11 @@
       return _results;
     },
     get_validate_popover: function(element) {
-      var v_popover;
+      var $container, v_popover;
       v_popover = $(element).data('validate-popover');
       if (v_popover == null) {
-        v_popover = $("<div class='popover " + ($.validator.get_position(element)) + " error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($('body'));
+        $container = $($.data($(element)[0].form, "validator").settings.popoverContainer);
+        v_popover = $("<div class='popover " + ($.validator.get_position(element)) + " error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container);
         v_popover.click(function() {
           return $(this).hide();
         });
