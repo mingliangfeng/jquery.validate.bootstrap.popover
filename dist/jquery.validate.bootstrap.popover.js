@@ -8,6 +8,9 @@
     validate_popover: function(options) {
       var settings;
       settings = $.extend(true, {}, $.validator.popover_defaults, options);
+      if (settings.get_offset_element) {
+        $.validator.get_offset_element = settings.get_offset_element;
+      }
       return this.validate(settings);
     }
   });
@@ -51,9 +54,12 @@
         return $v_popover.show();
       }
     },
+    get_offset_element: function(element) {
+      return $(element);
+    },
     reset_position: function(popover, element) {
       var left, left_adjust, offset, offset_adjust, position, top, top_adjust, _ref;
-      offset = $(element).offset();
+      offset = $.validator.get_offset_element(element).offset();
       offset_adjust = $(element).data('popover-offset') || "0,0";
       _ref = offset_adjust.split(','), top_adjust = _ref[0], left_adjust = _ref[1];
       position = $.validator.get_position(element);

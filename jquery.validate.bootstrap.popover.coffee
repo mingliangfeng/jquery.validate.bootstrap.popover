@@ -4,6 +4,7 @@ $ = jQuery
 # Adds plugin object to jQuery
 $.fn.extend validate_popover: (options) ->
   settings = $.extend true, {}, $.validator.popover_defaults, options
+  $.validator.get_offset_element = settings.get_offset_element if settings.get_offset_element
   this.validate(settings)
 
 $.extend $.validator,
@@ -32,9 +33,11 @@ $.extend $.validator,
     $('.popover-content', $v_popover).html(message)
     $.validator.reset_position $v_popover, element
     $v_popover.show() if message? and message != ''
+  
+  get_offset_element: (element)-> $(element)  
 
   reset_position: (popover, element)->
-    offset = $(element).offset()
+    offset = $.validator.get_offset_element(element).offset()
     offset_adjust = $(element).data('popover-offset') || "0,0"
     [top_adjust, left_adjust] = offset_adjust.split(',')
 
