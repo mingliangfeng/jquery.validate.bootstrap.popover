@@ -12,6 +12,7 @@ $.extend $.validator,
     onsubmit: true
     popoverPosition: 'right'
     popoverContainer: 'body'
+    hideForInvisible: true
     success: (error, element)-> $.validator.hide_validate_popover(element)
     errorPlacement: (error, element)->
       message = error.html()
@@ -50,7 +51,7 @@ $.extend $.validator,
       left = offset.left + $(element).width() + 20 + parseInt(left_adjust)
     popover.css({top: top, left: left})
 
-  get_position: (element) -> $(element).data('popover-position') || $.data($(element)[0].form, "validator").settings.popoverPosition
+  get_position: (element) -> $(element).data('popover-position') || $.validator.validator_settings(element).popoverPosition
 
   reposition: (elements)->
     if elements?
@@ -62,18 +63,27 @@ $.extend $.validator,
       ele = $(element)
       popover = ele.data('validate-popover')
       if popover? and popover.is(":visible")
-        if ele.is(":visible")
-          $.validator.reset_position popover, element
-        else
+        if $.validator.hide_popover_for_invisible(element) and !ele.is(":visible")
           popover.hide()
+        else
+          $.validator.reset_position popover, element
 
   get_validate_popover: (element)->
     v_popover = $(element).data('validate-popover')
     unless v_popover?
-      $container = $($.data($(element)[0].form, "validator").settings.popoverContainer)
+      $container = $($.validator.validator_settings(element).popoverContainer)
       v_popover = $("<div class='popover #{$.validator.get_position(element)} error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container)
       v_popover.click -> $(this).hide()
       $(element).data('validate-popover', v_popover)
       $.validator.popover_elements_cached.push element
     v_popover.hide()
+
+  hide_popover_for_invisible: (element)->
+    element_setting = $(element).data('popover-hide-for-invisible')
+    if element_setting?
+      element_setting
+    else
+      $.validator.validator_settings(element).hideForInvisible
+
+  validator_settings: (element)-> $.data($(element)[0].form, "validator").settings
 
