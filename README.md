@@ -35,7 +35,7 @@ Supported options are:
 		  }
 		});
 
-* **get_offset_element** A function will be called when positioning error popover relative to the returned element, default implmentation is returnning the validated element. e.g. [Issue 6](http://jsfiddle.net/mingliangfeng/TXeuL/2/): 
+* **get_offset_element** A function will be called when positioning error popover relative to the returned element, default implmentation is returnning the validated element. e.g. [Issue 6](https://github.com/mingliangfeng/jquery.validate.bootstrap.popover/pull/7): 
 
 		$('#form_id').validate_popover({ get_offset_element: function(element) {
 		    if ($(element).attr("id") == "test") {
