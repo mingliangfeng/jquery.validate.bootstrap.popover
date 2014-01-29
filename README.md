@@ -14,7 +14,7 @@ Check live demo [here](http://mingliangfeng.me/github%20project/2013/08/08/jquer
 ## Dependency
 * [jquery](https://github.com/jquery/jquery)
 * [jquery.validate](https://github.com/jzaefferer/jquery-validation)
-* [bootstrap](https://github.com/twbs/bootstrap)
+* [bootstrap 3](https://github.com/twbs/bootstrap)
 
 ## Options
 
@@ -27,6 +27,7 @@ Supported options are:
 
 * **popoverPosition** Supported values: 'right', 'top'; default to 'right'
 * **popoverContainer** The container popover message will append to, default: 'body'
+* **hideForInvisible** The flag to control if popover should be hidden for invisible validated element, default: true
 * **beforeShowError** A function will be called before the error popover shows, **this** of the function is the input html element validated: 
 
 		$('#form_id').validate_popover({ beforeShowError: function(message) { 
@@ -34,6 +35,16 @@ Supported options are:
 		  }
 		});
 
+* **get_offset_element** A function will be called when positioning error popover relative to the returned element, default implmentation is returnning the validated element. e.g. [Issue 6](http://jsfiddle.net/mingliangfeng/TXeuL/2/): 
+
+		$('#form_id').validate_popover({ get_offset_element: function(element) {
+		    if ($(element).attr("id") == "test") {
+		        return $(element).siblings('.bootstrap-select');
+		    } else {
+		        return $(element);
+		    }
+		  }
+		});
 
 ### HTML data attribute options
 * **data-popover-position** Supported values: 'right', 'top', this will override the global setting passed to **validate_popover** calling.
@@ -44,6 +55,10 @@ Supported options are:
 * **data-popover-offset** Adjust the offset of the popover message, format is "top,left", like the following example will decrease the top by 10, and increase the left by 100: 
 
 		data-popover-offset = "-10,100"
+
+* **data-popover-hide-for-invisible** Set to false to allow error popover is displayed even for invisible validated element:
+
+		data-popover-hide-for-invisible="false"
 
 
 ## Public Methods
