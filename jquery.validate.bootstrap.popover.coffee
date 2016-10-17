@@ -53,6 +53,8 @@ $.extend $.validator,
 
   get_position: (element) -> $(element).data('popover-position') || $.validator.validator_settings(element).popoverPosition
 
+  get_container: (element) -> $(element).data('popover-container') || $.validator.validator_settings(element).popoverContainer
+
   reposition: (elements)->
     if elements?
       reposition_elements = elements
@@ -71,7 +73,7 @@ $.extend $.validator,
   get_validate_popover: (element)->
     v_popover = $(element).data('validate-popover')
     unless v_popover?
-      $container = $($.validator.validator_settings(element).popoverContainer)
+      $container = $($.validator.get_container(element))
       v_popover = $("<div class='popover #{$.validator.get_position(element)} error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container)
       v_popover.click -> $(this).hide()
       $(element).data('validate-popover', v_popover)
