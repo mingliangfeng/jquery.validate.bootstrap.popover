@@ -79,6 +79,9 @@
     get_position: function(element) {
       return $(element).data('popover-position') || $.validator.validator_settings(element).popoverPosition;
     },
+    get_container: function(element) {
+        return $(element).data('popover-container') || $.validator.validator_settings(element).popoverContainer;
+    },
     reposition: function(elements) {
       var ele, element, popover, reposition_elements, _i, _len, _results;
       if (elements != null) {
@@ -104,10 +107,10 @@
       return _results;
     },
     get_validate_popover: function(element) {
-      var $container, v_popover;
+        var $container, v_popover;
       v_popover = $(element).data('validate-popover');
       if (v_popover == null) {
-        $container = $($.validator.validator_settings(element).popoverContainer);
+          $container = $($.validator.get_container(element));
         v_popover = $("<div class='popover " + ($.validator.get_position(element)) + " error-popover' id='validate-popover'><div class='arrow'></div><div class='popover-content'></div></div>").appendTo($container);
         v_popover.click(function() {
           return $(this).hide();
